@@ -1,55 +1,6 @@
 import 'package:flutter/material.dart';
-
-class ItemCard extends StatelessWidget {
-  final ItemHomepage item;
-  final Color cardColor; 
-
-  const ItemCard(this.item, {super.key, required this.cardColor});
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: cardColor, 
-      borderRadius: BorderRadius.circular(12),
-      child: InkWell(
-        onTap: () {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(SnackBar(
-                content: Text("Kamu telah menekan tombol ${item.name}")));
-        },
-        child: Container(
-          padding: const EdgeInsets.all(8),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  item.icon,
-                  color: Colors.white,
-                  size: 30.0,
-                ),
-                const Padding(padding: EdgeInsets.all(3)),
-                Text(
-                  item.name,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ItemHomepage {
-  final String name;
-  final IconData icon;
-
-  ItemHomepage(this.name, this.icon);
-}
+import 'package:jualbeli/widgets/left_drawer.dart';
+import 'package:jualbeli/widgets/product_card.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
@@ -78,7 +29,9 @@ class MyHomePage extends StatelessWidget {
           ),
         ),
         backgroundColor: Colors.indigo,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
+      drawer: const LeftDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
