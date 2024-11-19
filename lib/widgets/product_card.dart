@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:jualbeli/screen/product_form.dart';
+import 'package:jualbeli/screens/list_product.dart';
+import 'package:jualbeli/screens/login.dart';
+import 'package:jualbeli/screens/product_form.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 
 class ItemCard extends StatelessWidget {
   final ItemHomepage item;
@@ -9,11 +13,12 @@ class ItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Material(
       color: cardColor,
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
@@ -22,7 +27,32 @@ class ItemCard extends StatelessWidget {
           if (item.name == "Tambah Produk") {
               Navigator.push(context, 
                 MaterialPageRoute(builder: (context) => const ProductFormPage()));
-          }
+          } else if (item.name == "Lihat Daftar Produk") {
+              Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const ProductEntryPage()));
+          } else if (item.name == "Logout") {
+              final response = await request.logout(
+                  "http://127.0.0.1:8000/auth/logout/");
+              String message = response["message"];
+              if (context.mounted) {
+                  if (response['status']) {
+                      String uname = response["username"];
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("$message Sampai jumpa, $uname."),
+                      ));
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => const LoginPage()),
+                      );
+                  } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text(message),
+                          ),
+                      );
+                  }
+              }
+            }
         },
         child: Container(
           padding: const EdgeInsets.all(8),

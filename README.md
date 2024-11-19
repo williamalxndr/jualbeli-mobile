@@ -58,3 +58,27 @@ Ya, saya telah mengimplementasikan tema dalam aplikasi Flutter ini melalui penga
 
 5. Bagaimana cara kamu menangani navigasi dalam aplikasi dengan banyak halaman pada Flutter?
 Struktur direktori yang baik berpengaruh dalam mengatur navigasi pada aplikasi yang memiliki banyak halaman. Sebagai contoh, pada project ini, halaman halaman disimpan dalam direktori screen. Sedangkan widget custom disimpan dalam direktori widgets.
+
+Tugas 9
+
+1. Jelaskan mengapa kita perlu membuat model untuk melakukan pengambilan ataupun pengiriman data JSON? Apakah akan terjadi error jika kita tidak membuat model terlebih dahulu?
+Model diperlukan untuk memetakan data JSON ke objek Dart agar lebih terstruktur dan mudah diakses, memberikan type-safety (menghindari runtime errors), dan memudahkan validasi data. Tanpa model, akan terjadi beberapa masalah seperti kode lebih rawan error karena tidak ada pengecekan tipe data, data harus diakses secara manual menggunakan Map, dan lebih sulit untuk mengelola dan memvalidasi data. Meskipun bisa menggunakan map langsung, penggunaan model adalah best practice untuk maintainability dan reliability kode.
+
+2. Jelaskan fungsi dari library http yang sudah kamu implementasikan pada tugas ini
+Library http di Flutter berfungsi untuk melakukan HTTP requests ke server. Library ini menyediakan fungsi-fungsi untuk melakukan operasi GET (mengambil data), POST (mengirim data), PUT (memperbarui data), dan DELETE (menghapus data). Dalam tugas ini, library http digunakan untuk mengambil dan mengirim data produk ke Django backend melalui HTTP requests, dimana GET digunakan untuk mengambil daftar produk dan POST untuk menambahkan produk baru.
+
+3. Jelaskan fungsi dari CookieRequest dan jelaskan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter.
+CookieRequest berfungsi untuk mengelola state autentikasi dan session cookies dalam aplikasi Flutter, memungkinkan komunikasi yang konsisten dengan backend Django. Instance CookieRequest perlu dibagikan ke semua komponen (shared across widgets) menggunakan Provider untuk memastikan status autentikasi konsisten di seluruh aplikasi, menghindari multiple login sessions, dan memungkinkan semua widget mengakses fungsi autentikasi yang sama. Hal ini penting untuk menjaga keamanan dan konsistensi state aplikasi.
+
+4. Jelaskan mekanisme pengiriman data mulai dari input hingga dapat ditampilkan pada Flutter.
+Mekanisme pengiriman data dari input hingga tampil di Flutter adalah: Pertama, user mengisi form input di Flutter. Ketika form di-submit, data dari form dikonversi menjadi format JSON. Data JSON tersebut dikirim ke Django backend menggunakan HTTP POST request. Backend Django memproses data, menyimpan ke database, dan mengirim response. Flutter menerima response, mengkonversi data JSON menjadi objek model, dan menampilkan data tersebut menggunakan widget. Untuk menampilkan data yang sudah ada, Flutter melakukan HTTP GET request ke backend, menerima data JSON, mengkonversi ke objek model, lalu menampilkannya di UI.
+
+5. Jelaskan mekanisme autentikasi dari login, register, hingga logout. Mulai dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.
+Login: User memasukkan username dan password di Flutter -> Data dikirim ke Django melalui POST request -> Django memverifikasi kredensial -> Mengirim response berupa cookie session jika valid -> Flutter menyimpan cookie dan menampilkan halaman utama
+
+Register: User mengisi form registrasi di Flutter -> Data dikirim ke Django -> Django membuat user baru di database -> Mengirim response sukses/gagal -> Flutter menampilkan pesan sesuai response
+
+Logout: User menekan tombol logout -> Flutter mengirim request logout ke Django -> Django menghapus session -> Flutter menghapus cookie dan kembali ke halaman login
+
+6. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step! (bukan hanya sekadar mengikuti tutorial).
+Mengikuti tutorial untuk secara umum, melihat tutorial di youtube, dan menggunakan bbrp sumber spt stackoverflow, dokumentasi, dll untuk proses debug.
